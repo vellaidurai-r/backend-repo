@@ -27,14 +27,9 @@ jobs:
           IMAGE_TAG=${{ github.sha }}
           ECR_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}
 
-          
           docker build -t $ECR_URI:$IMAGE_TAG .
 
           docker push $ECR_URI:$IMAGE_TAG
-
-          # keep latest in sync (for ECS fallback / debugging)
-          docker tag $ECR_URI:$IMAGE_TAG $ECR_URI:latest
-          docker push $ECR_URI:latest
 
           echo "IMAGE_URI=$ECR_URI:$IMAGE_TAG" >> $GITHUB_ENV
 
@@ -42,7 +37,7 @@ jobs:
         id: render-task
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: backend/ecs-task-def.json
+          task-definition: ecs-task-def.json
           container-name: ${{ secrets.CONTAINER_NAME }}
           image: ${{ env.IMAGE_URI }}
 
