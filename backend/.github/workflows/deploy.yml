@@ -31,6 +31,9 @@ jobs:
           docker build -t $ECR_URI:$IMAGE_TAG .
           docker push $ECR_URI:$IMAGE_TAG
 
+          docker tag $ECR_URI:$IMAGE_TAG $ECR_URI:latest
+          docker push $ECR_URI:latest
+
           echo "IMAGE_URI=$ECR_URI:$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Render new ECS task definition
