@@ -27,7 +27,8 @@ jobs:
           IMAGE_TAG=${{ github.sha }}
           ECR_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}
 
-          docker build -t $ECR_URI:$IMAGE_TAG .
+          # 🔥 FIXED: Dockerfile is inside backend folder
+          docker build -f backend/Dockerfile -t $ECR_URI:$IMAGE_TAG .
 
           docker push $ECR_URI:$IMAGE_TAG
 
@@ -37,7 +38,7 @@ jobs:
         id: render-task
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ecs-task-def.json
+          task-definition: backend/node-app-task.json
           container-name: ${{ secrets.CONTAINER_NAME }}
           image: ${{ env.IMAGE_URI }}
 
