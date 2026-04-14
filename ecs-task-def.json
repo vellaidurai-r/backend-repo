@@ -1,0 +1,43 @@
+{
+  "family": "node-app-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "3072",
+
+  "executionRoleArn": "arn:aws:iam::497162053399:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::497162053399:role/ecsTaskExecutionRole",
+
+  "containerDefinitions": [
+    {
+      "name": "node-backend",
+      "image": "CHANGE_ME_ECR_IMAGE",
+      "essential": true,
+
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+
+      "environment": [
+        { "name": "DB_NAME", "value": "myapp" },
+        { "name": "DB_HOST", "value": "REPLACE_ME" },
+        { "name": "DB_PORT", "value": "5432" },
+        { "name": "DB_USER", "value": "postgres" },
+        { "name": "DB_PASSWORD", "value": "password" }
+      ],
+
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/node-app-task",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      }
+    }
+  ]
+}
