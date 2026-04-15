@@ -7,8 +7,6 @@ RUN npm install
 
 COPY . .
 
-RUN npx tsc
-RUN ls -l /app && cat /app/tsconfig.json
 RUN npm run build
 
 EXPOSE 3000
