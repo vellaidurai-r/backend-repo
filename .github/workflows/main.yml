@@ -28,7 +28,7 @@ jobs:
           ECR_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}
 
           # 🔥 FIXED: Dockerfile is inside backend folder
-          docker build -f backend/Dockerfile -t $ECR_URI:$IMAGE_TAG .
+          docker build -f ./backend/Dockerfile -t $ECR_URI:$IMAGE_TAG .
 
           docker push $ECR_URI:$IMAGE_TAG
 
